@@ -1,7 +1,6 @@
 package zrpc
 
 import (
-	"log"
 	"time"
 
 	"github.com/zeromicro/go-zero/core/load"
@@ -23,10 +22,7 @@ type RpcServer struct {
 // MustNewServer returns a RpcSever, exits on any error.
 func MustNewServer(c RpcServerConf, register internal.RegisterFn) *RpcServer {
 	server, err := NewServer(c, register)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	logx.Must(err)
 	return server
 }
 
@@ -100,11 +96,13 @@ func (rs *RpcServer) Stop() {
 }
 
 // DontLogContentForMethod disable logging content for given method.
+// Deprecated: use ServerMiddlewaresConf.IgnoreContentMethods instead.
 func DontLogContentForMethod(method string) {
 	serverinterceptors.DontLogContentForMethod(method)
 }
 
 // SetServerSlowThreshold sets the slow threshold on server side.
+// Deprecated: use ServerMiddlewaresConf.SlowThreshold instead.
 func SetServerSlowThreshold(threshold time.Duration) {
 	serverinterceptors.SetSlowThreshold(threshold)
 }
